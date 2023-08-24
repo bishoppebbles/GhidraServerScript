@@ -1,4 +1,4 @@
-# GHIDRA_server_script
+# GHIDRA Server Script
 GHIDRA server script code from Chapter 11 - Collaborative SRE in [The GHIDRA Book - The Definitive Guide](https://nostarch.com/GhidraBook) by Chris Eagle and Kara Nance from *no starch press*.  I added some code for user input options for the GHIDRA download URL and SHA256 confirmation hash.
 
 * [GHIDRA download](https://github.com/NationalSecurityAgency/ghidra/releases)
