@@ -14,7 +14,11 @@ GHIDRA_ZIP=/tmp/ghidra.zip
 sudo apt update && sudo apt install -y openjdk-17-jdk unzip
 
 wget ${GHIDRA_URL} -O ${GHIDRA_ZIP}
-RESULT=$(echo "${GHIDRA_HASH} ${GHIDRA_ZIP}" | sha256sum --check | cut -d' ' -f2)             if [ "${RESULT}" != "OK" ]; then                                                              	echo "Exiting: Incorrect GHIDRA zip SHA256"                                                   exit 1                                                                                fi  
+RESULT=$(echo "${GHIDRA_HASH} ${GHIDRA_ZIP}" | sha256sum --check | cut -d' ' -f2)             
+if [ "${RESULT}" != "OK" ]; then                                                              	
+        echo "Exiting: Incorrect GHIDRA zip SHA256"                                                   
+        exit 1                                                                                
+fi  
 
 mkdir /tmp/ghidra && cd /tmp/ghidra && unzip ${GHIDRA_ZIP}
 sudo mv ghidra_* ${SVRROOT}
