@@ -64,7 +64,7 @@ sudo apt update && sudo apt dist-upgrade -y && sudo apt install -y openjdk-17-jd
 wget ${GHIDRA_URL} -O ${GHIDRA_ZIP}
 RESULT=$(echo "${GHIDRA_HASH} ${GHIDRA_ZIP}" | sha256sum --check | cut -d' ' -f2)             
 if [ "${RESULT}" != "OK" ]; then                                                              	
-        echo "Exiting: Incorrect GHIDRA zip SHA256"                                                   
+        echo "Exiting: Ghidra download SHA256 does not match"
         exit 1                                                                                
 fi  
 
