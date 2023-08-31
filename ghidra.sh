@@ -1,4 +1,38 @@
 #!/bin/bash
+#
+# Copyright (c) 2019 Kara Nance (knance@securityworks.com)
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of 
+# this software and associated documentation files (the "Software"), to deal in 
+# the Software without restriction, including without limitation the rights to 
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of 
+# the Software, and to permit persons to whom the Software is furnished to do so, 
+# subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all 
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS 
+# FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER 
+# IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
+# CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+# Script to install and create a basic configuration for a Ghidra
+# server.
+#
+# Note that this configuration is suitable for development
+# and experimentation purposes only.  If you are configuring a
+# Ghidra server for production use you should carefully read the
+# Ghidra server documentation found in the Ghidra distribution, and
+# determine an appropriate configuration for your environment and
+# specific use case.
+#
+# Updates and additions by Sam Pursglove 
+# Last edit: 01 SEP 2023
+#
+
 # script usage message
 if [ "$1" = "-h" -o $# -ne 3 -o $# -ne 4 ]; then
         echo "usage: ./ghidra.sh <http_ghidra_download_url> <file_sha256_hash> <username> [<ghidra_public_server_ip>]"
@@ -15,7 +49,15 @@ GHIDRA_USER=$3
 GHIDRA_SVR_IP=$4
 GHIDRA_ZIP=/tmp/ghidra.zip
 
-# update Ubuntu and install Java
+# check if the install directory already exists, in which case don't 
+# install (see the server/svrREADME.html instructions for uninstalling 
+# and upgrading Ghidra server)
+if [ -e ${SVRROOT} ]; then
+	echo "Exiting: ${SVRROOT} already exists"
+	exit 1
+fi
+
+# update Ubuntu and install Java 17 (change the Java package version as necessary)
 sudo apt update && sudo apt dist-upgrade -y && sudo apt install -y openjdk-17-jdk unzip
 
 # download Ghidra and ensure it matches the SHA256 hash provided
