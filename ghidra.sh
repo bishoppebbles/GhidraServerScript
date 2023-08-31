@@ -34,9 +34,9 @@
 #
 
 # script usage message
-if [ "$1" = "-h" -o $# -ne 3 -o $# -ne 4 ]; then
+if [[ "$1" = "-h" || $# -lt 3 || $# -gt 4 ]]; then
         echo "usage: ./ghidra.sh <ghidra_download_url> <file_sha256> <username> [<public_server_ip>]"
-        exit 1
+        exit -1
 fi
 
 # define some environment variables
@@ -48,6 +48,22 @@ GHIDRA_HASH=$2
 GHIDRA_USER=$3
 GHIDRA_SVR_IP=$4
 GHIDRA_ZIP=/tmp/ghidra.zip
+
+# basic check to make sure sha256 hash is the expected length and hex
+HASH=$(echo $GHIDRA_HASH | grep -P "^[0-9a-fA-F]{64}$")
+if [ ${#HASH} -eq 0 ]; then
+        echo "Exiting: invalid SHA256 hash format: ${GHIDRA_HASH}"
+        exit -1
+fi
+
+# if an ipv4 address is provided do a basic check on the format
+if [ $# -eq 4 ]; then
+        IP=$(echo $GHIDRA_SVR_IP | grep -P "^\d{1,3}(\.\d{1,3}){3}$")
+        if [ ${#IP} -eq 0 ]; then
+                echo "Exiting: invalid IPv4 address: ${GHIDRA_SVR_IP}"
+                exit -1
+        fi
+fi
 
 # check if the install directory already exists, in which case don't 
 # install (see the server/svrREADME.html instructions for uninstalling 
