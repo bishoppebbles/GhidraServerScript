@@ -49,7 +49,7 @@ GHIDRA_USER=$3
 GHIDRA_SVR_IP=$4
 GHIDRA_ZIP=/tmp/ghidra.zip
 
-# basic check to make sure sha256 hash is the expected length and hex
+# basic check to make sure sha256 hash is the expected length and in hex
 HASH=$(echo $GHIDRA_HASH | grep -P "^[0-9a-fA-F]{64}$")
 if [ ${#HASH} -eq 0 ]; then
         echo "Exiting: invalid SHA256 hash format: ${GHIDRA_HASH}"
@@ -111,8 +111,15 @@ sed -i "s@^$REPOVAR=.*\$@$REPOVAR=$REPODIR@g" server.conf
 # Some versions of Ghidra expect the repository path to be the last command
 # line parameter so that is why it is moved to the end
 PARM=wrapper.app.parameter.
-sed -i "s/^${PARM}2=/${PARM}3=/" server.conf
-sed -i "/^${PARM}3=/i ${PARM}2=-u" server.conf
+if [ $# -eq 3 ];then
+        sed -i "s/^${PARM}2=/${PARM}3=/" server.conf
+        sed -i "/^${PARM}3=/i ${PARM}2=-u" server.conf
+else
+        sed -i "s/^${PARM}2=/${PARM}4=/" server.conf
+        sed -i "s/^${PARM}1=/${PARM}2=/" server.conf
+        sed -i "/^${PARM}2=/i ${PARM}1=-ip ${GHIDRA_SVR_IP}" server.conf
+        sed -i "/^${PARM}4=/i ${PARM}3=-u" server.conf
+fi
 
 # change the ownership of the Ghidra server process and directory to
 # the Ghidra user
