@@ -70,7 +70,7 @@ fi
 # and upgrading Ghidra server)
 if [ -e ${SVRROOT} ]; then
 	echo "Exiting: ${SVRROOT} already exists"
-	exit 1
+	exit -1
 fi
 
 # update Ubuntu and install Java 17 (change the Java package version as necessary)
@@ -81,7 +81,7 @@ wget ${GHIDRA_URL} -O ${GHIDRA_ZIP}
 RESULT=$(echo "${GHIDRA_HASH} ${GHIDRA_ZIP}" | sha256sum --check | cut -d' ' -f2)             
 if [ "${RESULT}" != "OK" ]; then                                                              	
         echo "Exiting: Ghidra download SHA256 does not match"
-        exit 1                                                                                
+        exit -1                                                                                
 fi  
 
 # unzip the Ghidra download in a temp directory then move to the designated 
