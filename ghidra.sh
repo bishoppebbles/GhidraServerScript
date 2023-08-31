@@ -88,9 +88,10 @@ cd ${SVRROOT}/server && cp server.conf server.conf.orig
 REPOVAR=ghidra.repositories.dir
 sed -i "s@^$REPOVAR=.*\$@$REPOVAR=$REPODIR@g" server.conf
 
-# -u option allows you to specify a username when connecting
-# -ip option allows you to set the (public) IP your client should connect to
-#        this is likely required if you're using a cloud VPS
+# -ip : allows you to set the public IP your client connects to
+#        (likely required if you're using a cloud VPS)
+# -a0 : use private user password authentication
+# -u : allows user to specify a username when connecting
 # Some versions of Ghidra expect the repository path to be the last command
 # line parameter so that is why it is moved to the end
 PARM=wrapper.app.parameter.
