@@ -111,7 +111,7 @@ sed -i "s@^$REPOVAR=.*\$@$REPOVAR=$REPODIR@g" server.conf
 # Some versions of Ghidra expect the repository path to be the last command
 # line parameter so that is why it is moved to the end
 PARM=wrapper.app.parameter.
-if [ $# -eq 3 ];then
+if [ $# -eq 3 ]; then
         sed -i "s/^${PARM}2=/${PARM}3=/" server.conf
         sed -i "/^${PARM}3=/i ${PARM}2=-u" server.conf
 else
