@@ -35,7 +35,7 @@
 
 # script usage message
 if [ "$1" = "-h" -o $# -ne 3 -o $# -ne 4 ]; then
-        echo "usage: ./ghidra.sh <http_ghidra_download_url> <file_sha256_hash> <username> [<ghidra_public_server_ip>]"
+        echo "usage: ./ghidra.sh <ghidra_download_url> <file_sha256> <username> [<public_server_ip>]"
         exit 1
 fi
 
